@@ -378,12 +378,24 @@
                 
               
 
-              <time title="创建时间：2018-06-10 22:20:25 / 修改时间：22:36:22" itemprop="dateCreated datePublished" datetime="2018-06-10T22:20:25+08:00">2018-06-10</time>
+              <time title="创建时间：2018-06-10 22:20:25" itemprop="dateCreated datePublished" datetime="2018-06-10T22:20:25+08:00">2018-06-10</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-07-01 19:33:40" itemprop="dateModified" datetime="2018-07-01T19:33:40+08:00">2018-07-01</time>
               
             
           </span>
@@ -456,9 +468,9 @@
         
           
             <h5 id="Cisco数据包处理流程"><a href="#Cisco数据包处理流程" class="headerlink" title="Cisco数据包处理流程"></a>Cisco数据包处理流程</h5><p>了解厂商数据包处理流程才能更好的利用ACL等策略以最高效的手段进行访问控制<br><strong><em>==cisco设备在在此有两个阶段==</em></strong></p>
-<h6 id="IOS12-4之前"><a href="#IOS12-4之前" class="headerlink" title="IOS12.4之前"></a>IOS12.4之前</h6><p><img src="https://note.youdao.com/yws/public/resource/baa9c995a2a0e7e9d21f4806ec504596/xmlnote/AF623D4F01C5405AA20538FA617A1DEE/17391" alt="image"><br><img src="https://note.youdao.com/yws/public/resource/baa9c995a2a0e7e9d21f4806ec504596/xmlnote/FD2CAE85F33A441BB5DFFF07BB442BD8/17392" alt="image"></p>
-<h6 id="IOS12-4之后"><a href="#IOS12-4之后" class="headerlink" title="IOS12.4之后"></a>IOS12.4之后</h6><p><img src="https://note.youdao.com/yws/public/resource/baa9c995a2a0e7e9d21f4806ec504596/xmlnote/E8F56D6792594E58A2A2879AA8112092/17390" alt="image"><img src="https://note.youdao.com/yws/public/resource/baa9c995a2a0e7e9d21f4806ec504596/xmlnote/904C5EDAED2544C2B0EA35F636159A90/17394" alt="image"></p>
-<h5 id="案例一"><a href="#案例一" class="headerlink" title="案例一"></a>案例一</h5><p><img src="https://note.youdao.com/yws/public/resource/baa9c995a2a0e7e9d21f4806ec504596/xmlnote/CFF7432F81624C089045ECDDB55B1B63/17396" alt="image"></p>
+<h6 id="IOS12-4之前"><a href="#IOS12-4之前" class="headerlink" title="IOS12.4之前"></a>IOS12.4之前</h6><p><img src="/images/ipsec-1.png" alt=""><br><img src="/images/ipsec-2.png" alt=""></p>
+<h6 id="IOS12-4之后"><a href="#IOS12-4之后" class="headerlink" title="IOS12.4之后"></a>IOS12.4之后</h6><p><img src="/images/ipsec-3.png" alt=""><br><img src="/images/ipsec-44.png" alt=""></p>
+<h5 id="案例一"><a href="#案例一" class="headerlink" title="案例一"></a>案例一</h5><p><img src="/images/ipsec-5.png" alt=""></p>
 <h5 id="before-Release-12-3-8-T"><a href="#before-Release-12-3-8-T" class="headerlink" title="before Release 12.3(8)T"></a>before Release 12.3(8)T</h5><p>在之前的版本12.4之前我们可以清晰的看到设备对于inbound流量，会在加密前匹配一次inbound方向的ACL，解密之后数据会再一次匹配inbound方向的ACL。已上图为例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#已A路由器为例（仅允许10.1.1.0/24访问10.1.2.0/24）：</span><br><span class="line">crypto map vpnmap 10 ipsec-isakmp </span><br><span class="line">  set peer 192.168.2.1</span><br><span class="line">  set transform-set trans1</span><br><span class="line">  match address 101</span><br><span class="line"></span><br><span class="line"> interface Ethernet0/0</span><br><span class="line">  ip address 10.1.1.1 255.255.255.0</span><br><span class="line"> interface Serial1/0</span><br><span class="line">  ip address 192.168.1.1 255.255.255.0</span><br><span class="line">  ip access-group 150 in</span><br><span class="line">  ip access-group 160 out</span><br><span class="line">  crypto map vpnmap</span><br><span class="line"></span><br><span class="line"> access-list 101 permit ip 10.1.1.0 0.0.0.255 10.1.2.0 0.0.0.255</span><br><span class="line"> access-list 150 permit udp host 192.168.2.1 eq 500 host 192.168.1.1 eq 500</span><br><span class="line"> access-list 150 permit esp host 192.168.2.1 host 192.168.1.1</span><br><span class="line"> access-list 150 permit ip 10.1.2.0 0.0.0.255 10.1.1.0 0.0.0.255</span><br><span class="line"></span><br><span class="line"> access-list 160 permit udp host 192.168.1.1 eq 500 host 192.168.2.1 eq 500</span><br><span class="line"> access-list 160 permit ip 10.1.1.0 0.0.0.255 10.1.2.0 0.0.0.255</span><br></pre></td></tr></table></figure></p>
 <h5 id="新的IPsec-VPN-没有crypto-access-ACL访问控制"><a href="#新的IPsec-VPN-没有crypto-access-ACL访问控制" class="headerlink" title="新的IPsec VPN 没有crypto access ACL访问控制:"></a>新的IPsec VPN 没有crypto access ACL访问控制:</h5><p>新版本的IPsec VPN inbound流量只会在未解密之前匹配inbound ACL，解密后的流量不在匹配inbound ACL，此时解密后的流量会匹配crypto access ACL。已上图为例在新版本下配置无crypto access ACL的IPsec VPN访问控制：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#以A路由器为例（允许10.1.1.0/24访问10.1.2.0/24）</span><br><span class="line">crypto map vpnmap 10 ipsec-isakmp</span><br><span class="line">  set peer 192.168.2.1</span><br><span class="line">  set transform-set trans1</span><br><span class="line">  match address 101</span><br><span class="line"></span><br><span class="line"> interface Ethernet0/0</span><br><span class="line">  ip address 10.1.1.1 255.255.255.0</span><br><span class="line"> interface Serial1/0</span><br><span class="line">  ip address 192.168.1.1 255.255.255.0</span><br><span class="line">  ip access-group 150 in</span><br><span class="line">  ip access-group 160 out</span><br><span class="line">  crypto map vpnmap</span><br><span class="line"> access-list 101 permit ip 10.1.1.0 0.0.0.255 10.1.2.0 0.0.0.255</span><br><span class="line"></span><br><span class="line"> access-list 150 permit udp host 192.168.2.1 eq 500 host 192.168.1.1 eq 500</span><br><span class="line"> access-list 150 permit esp host 192.168.2.1 host 192.168.1.1</span><br><span class="line"></span><br><span class="line"> access-list 160 permit udp host 192.168.1.1 eq 500 host 192.168.2.1 eq 500</span><br><span class="line"> access-list 160 permit esp host 192.168.1.1 host 192.168.2.1</span><br></pre></td></tr></table></figure></p>
 <h5 id="新的IPsec-VPN-有crypto-access-ACL访问控制"><a href="#新的IPsec-VPN-有crypto-access-ACL访问控制" class="headerlink" title="新的IPsec VPN 有crypto access ACL访问控制"></a>新的IPsec VPN 有crypto access ACL访问控制</h5><p>新版本的IPsec VPN inbound流量只会在未解密之前匹配inbound ACL，解密后的流量不在匹配inbound ACL，此时解密后的流量会匹配crypto access ACL。已上图为例在新版本下配置有crypto access ACL的IPsec VPN访问控制：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">#以A路由器为例（仅允许10.1.1.0/24和10.1.2.0/24的telnet流量互通）：</span><br><span class="line">crypto map vpnmap 10 ipsec-isakmp</span><br><span class="line">  set peer 192.168.2.1</span><br><span class="line">  set transform-set trans1</span><br><span class="line">  set ip access-group 151 in</span><br><span class="line">  set ip access-group 161 out</span><br><span class="line">  match address 101</span><br><span class="line"></span><br><span class="line"> interface Ethernet0/0</span><br><span class="line">  ip address 10.1.1.1 255.255.255.0</span><br><span class="line"> interface Serial1/0</span><br><span class="line">  ip address 192.168.1.1 255.255.255.0</span><br><span class="line">  ip access-group 150 in</span><br><span class="line">  ip access-group 160 out</span><br><span class="line">  crypto map vpnmap</span><br><span class="line"></span><br><span class="line"> access-list 101 permit ip 10.1.1.0 0.0.0.255 10.1.2.0 0.0.0.255</span><br><span class="line"></span><br><span class="line"> access-list 150 permit udp host 192.168.2.1 eq 500 host 192.168.1.1 eq 500</span><br><span class="line"> access-list 150 permit esp host 192.168.2.1 host 192.168.1.1</span><br><span class="line"></span><br><span class="line"> access-list 151 permit tcp 10.1.2.0 0.0.0.255 eq telnet 10.1.1.0 0.0.0.255</span><br><span class="line"> access-list 151 permit tcp 10.1.2.0 0.0.0.255 10.1.1.0 0.0.0.255 eq telnet</span><br><span class="line"></span><br><span class="line"> access-list 160 permit udp host 192.168.1.1 eq 500 host 192.168.2.1 eq 500</span><br><span class="line"> access-list 160 permit esp host 192.168.1.1 host 192.168.2.1</span><br><span class="line"></span><br><span class="line"> access-list 161 permit ip 10.1.1.0 0.0.0.255 10.1.2.0 0.0.0.255 eq telnet</span><br><span class="line"> access-list 161 permit ip 10.1.1.0 0.0.0.255 eq telnet 10.1.2.0 0.0.0.255</span><br></pre></td></tr></table></figure></p>
@@ -561,12 +573,24 @@
                 
               
 
-              <time title="创建时间：2018-06-10 22:18:50 / 修改时间：22:37:32" itemprop="dateCreated datePublished" datetime="2018-06-10T22:18:50+08:00">2018-06-10</time>
+              <time title="创建时间：2018-06-10 22:18:50" itemprop="dateCreated datePublished" datetime="2018-06-10T22:18:50+08:00">2018-06-10</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-07-01 19:25:57" itemprop="dateModified" datetime="2018-07-01T19:25:57+08:00">2018-07-01</time>
               
             
           </span>
@@ -650,12 +674,12 @@
 <li>当收到DHCP packets含有options-82选项<h5 id="DHCP-Snooping-82选项插入"><a href="#DHCP-Snooping-82选项插入" class="headerlink" title="DHCP Snooping 82选项插入"></a>DHCP Snooping 82选项插入</h5>开启DHCP Snooping的就交换机在收到DHCP报文时会对报文插入82选项</li>
 <li>option-82信息包含交换机MAC、端口身份、vlan-mod-port（如下图）</li>
 </ul>
-<p><img src="https://note.youdao.com/yws/public/resource/baa9c995a2a0e7e9d21f4806ec504596/xmlnote/035F7983714E4C14A8E7DD10468D486C/17397" alt="image"></p>
+<p><img src="/images/DHCP Snooping-1.png" alt=""></p>
 <ul>
 <li>如果开启802.1x，option-82内包含Radius认证信息</li>
 <li>包含中继地址<h5 id="DHCP-Snooping-database"><a href="#DHCP-Snooping-database" class="headerlink" title="DHCP Snooping database"></a>DHCP Snooping database</h5>所有绑定信息都会存储在数据库中（如下图）</li>
 </ul>
-<p><img src="https://note.youdao.com/yws/public/resource/baa9c995a2a0e7e9d21f4806ec504596/xmlnote/5BFDF7114BBD4760A37FE886C2292D00/17395" alt="image"></p>
+<p><img src="/images/DHCP Snooping-2.png" alt=""></p>
 <h5 id="默认DHCP-Snooping开启功能"><a href="#默认DHCP-Snooping开启功能" class="headerlink" title="默认DHCP Snooping开启功能"></a>默认DHCP Snooping开启功能</h5><table>
 <thead>
 <tr>
@@ -702,7 +726,7 @@
 </tr>
 </tbody>
 </table>
-<h5 id="DHCP-Snooping配置"><a href="#DHCP-Snooping配置" class="headerlink" title="DHCP Snooping配置"></a>DHCP Snooping配置</h5><h6 id="拓扑"><a href="#拓扑" class="headerlink" title="拓扑"></a>拓扑</h6><p><img src="https://note.youdao.com/yws/public/resource/baa9c995a2a0e7e9d21f4806ec504596/xmlnote/6930D353516E4F52B699DABC973A9324/17393" alt="image"></p>
+<h5 id="DHCP-Snooping配置"><a href="#DHCP-Snooping配置" class="headerlink" title="DHCP Snooping配置"></a>DHCP Snooping配置</h5><h6 id="拓扑"><a href="#拓扑" class="headerlink" title="拓扑"></a>拓扑</h6><p><img src="/images/DHCP Snooping-3.png" alt=""></p>
 <h6 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Client</span><br><span class="line">Client#configure terminal </span><br><span class="line">Enter configuration commands, one per line.  End with CNTL/Z.</span><br><span class="line">Client(config)#inter e0/0</span><br><span class="line">Client(config)#ip add dhcp    #接口地址启用dhcp</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">SW1:</span><br><span class="line">SW1#configure terminal </span><br><span class="line">Enter configuration commands, one per line.  End with CNTL/Z.</span><br><span class="line">SW1(config)#vlan 10</span><br><span class="line">SW1(config-vlan)#exit</span><br><span class="line">SW1(config)#inter e0/0</span><br><span class="line">SW1(config)#sw mo acc</span><br><span class="line">SW1(config)#sw acc vlan 10</span><br><span class="line">SW1(config)#inter e0/1</span><br><span class="line">SW1(config)#sw mo acc</span><br><span class="line">SW1(config)#sw acc vlan 10</span><br><span class="line">SW1(config)#ip dhcp snooping  #全局开启dhcp snooping功能</span><br><span class="line">SW1(config)#do show ip dhcp snooping | include Switch    #查看dhcp snooping是否开启</span><br><span class="line">Switch DHCP snooping is enabled</span><br><span class="line">SW1(config)ip dhcp snooping information option</span><br><span class="line">SW1(config-vlan)#do show ip dhcp snooping | include 82  #查看option82是否打开</span><br><span class="line">Insertion of option 82 is enabled</span><br><span class="line">Option 82 on untrusted port is not allowed</span><br><span class="line">SW1(config)#ip dhcp snooping verify mac-address  #开启mac-ip绑定验证功能</span><br><span class="line">SW1(config-vlan)#do show ip dhcp snooping | include hwaddr  #查看上述功能是否打开</span><br><span class="line">Verification of hwaddr field is enabled</span><br><span class="line">SW1(config)#ip dhcp snooping database disk0:/dhcp.db #配置dhcp snooping database存放位置</span><br><span class="line">SW1(config)#ip dhcp snooping vlan 10    #在特定vlan启动dhcp snooping</span><br><span class="line">SW1(config)#do show ip dhcp snooping</span><br><span class="line">Switch DHCP snooping is enabled</span><br><span class="line">Switch DHCP gleaning is disabled</span><br><span class="line">DHCP snooping is configured on following VLANs:</span><br><span class="line">10</span><br><span class="line">DHCP snooping is operational on following VLANs:</span><br><span class="line">10</span><br><span class="line">DHCP snooping is configured on the following L3 Interfaces:</span><br><span class="line"></span><br><span class="line">Insertion of option 82 is enabled</span><br><span class="line">   circuit-id default format: vlan-mod-port</span><br><span class="line">   remote-id: aabb.cc00.5000 (MAC)</span><br><span class="line">Option 82 on untrusted port is not allowed</span><br><span class="line">Verification of hwaddr field is enabled</span><br><span class="line">Verification of giaddr field is enabled</span><br><span class="line">DHCP snooping trust/rate is configured on the following Interfaces:</span><br><span class="line"></span><br><span class="line">Interface                  Trusted    Allow option    Rate limit (pps)</span><br><span class="line">-----------------------    -------    ------------    ----------------   </span><br><span class="line"></span><br><span class="line">SW1(config-if)#ip dhcp snooping trust   #将连接上游交换机接口配置为可信接口</span><br><span class="line">SW1(config-if)#ip dhcp snooping limit rate 60   #根据需求配置DHCP限速</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">SW2:</span><br><span class="line">SW2:</span><br><span class="line">SW2#configure terminal </span><br><span class="line">Enter configuration commands, one per line.  End with CNTL/Z.</span><br><span class="line">SW2(config)#vlan 10</span><br><span class="line">SW2(config-vlan)#exit</span><br><span class="line">SW2(config)#inter e0/0</span><br><span class="line">SW2(config)#sw mo acc</span><br><span class="line">SW2(config)#sw acc vlan 10</span><br><span class="line">SW2(config)#inter e0/1</span><br><span class="line">SW2(config)#sw mo acc</span><br><span class="line">SW2(config)#sw acc vlan 10</span><br><span class="line">SW2(config)#ip dhcp snooping  #全局开启dhcp snooping功能</span><br><span class="line">SW2(config)#do show ip dhcp snooping | include Switch    #查看dhcp snooping是否开启</span><br><span class="line">Switch DHCP snooping is enabled</span><br><span class="line">SW2(config)ip dhcp snooping information option</span><br><span class="line">SW2(config-vlan)#do show ip dhcp snooping | include 82  #查看option82是否打开</span><br><span class="line">Insertion of option 82 is enabled</span><br><span class="line">Option 82 on untrusted port is not allowed</span><br><span class="line">SW2(config)#ip dhcp snooping verify mac-address  #开启mac-ip绑定验证功能</span><br><span class="line">SW2(config-vlan)#do show ip dhcp snooping | include hwaddr  #查看上述功能是否打开</span><br><span class="line">Verification of hwaddr field is enabled</span><br><span class="line">SW2(config)#ip dhcp snooping database disk0:/dhcp.db #配置dhcp snooping database存放位置</span><br><span class="line">SW2(config)#ip dhcp snooping vlan 10    #在特定vlan启动dhcp snooping</span><br><span class="line">SW2(config)#do show ip dhcp snooping</span><br><span class="line">Switch DHCP snooping is enabled</span><br><span class="line">Switch DHCP gleaning is disabled</span><br><span class="line">DHCP snooping is configured on following VLANs:</span><br><span class="line">10</span><br><span class="line">DHCP snooping is operational on following VLANs:</span><br><span class="line">10</span><br><span class="line">DHCP snooping is configured on the following L3 Interfaces:</span><br><span class="line"></span><br><span class="line">Insertion of option 82 is enabled</span><br><span class="line">   circuit-id default format: vlan-mod-port</span><br><span class="line">   remote-id: aabb.cc00.5000 (MAC)</span><br><span class="line">Option 82 on untrusted port is not allowed</span><br><span class="line">Verification of hwaddr field is enabled</span><br><span class="line">Verification of giaddr field is enabled</span><br><span class="line">DHCP snooping trust/rate is configured on the following Interfaces:</span><br><span class="line"></span><br><span class="line">Interface                  Trusted    Allow option    Rate limit (pps)</span><br><span class="line">-----------------------    -------    ------------    ----------------   </span><br><span class="line"></span><br><span class="line">SW2(config-if)#ip dhcp snooping trust   #将连接上游交换机接口配置为可信接口</span><br><span class="line">SW2(config-if)#ip dhcp snooping limit rate 60   #根据需求配置DHCP限速</span><br><span class="line">SW2(config-if)#inter e0/0</span><br><span class="line">SW2(config-if)#ip dhcp snooping information option allow-untrusted  #将连接下游交换机接口配置允许含option82数据包通过（默认非信任端口自动丢弃）</span><br></pre></td></tr></table></figure>
@@ -811,12 +835,24 @@
                 
               
 
-              <time title="创建时间：2018-06-10 22:17:52 / 修改时间：22:18:24" itemprop="dateCreated datePublished" datetime="2018-06-10T22:17:52+08:00">2018-06-10</time>
+              <time title="创建时间：2018-06-10 22:17:52" itemprop="dateCreated datePublished" datetime="2018-06-10T22:17:52+08:00">2018-06-10</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-07-01 19:35:39" itemprop="dateModified" datetime="2018-07-01T19:35:39+08:00">2018-07-01</time>
               
             
           </span>
@@ -890,7 +926,7 @@
           
             <h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>上篇文章介绍了在不同区域下各个参数搭配使用的不同效果（实现tcp的负载均衡、地址伪装），今天给大家带了一个不太被常用但是确实很好用的NAT配置方法。大家应该很清楚常规的NAT配置下经常会碰到NAT回流的问题（内部的服务器映射给公网使用，常规ip nat inside source static映射后，外网用户可以正常访问该服务器，但是内网用户则无法使用该服务器映射公网地址访问服务器）。归根结底问题出在内网用户访问其公网地址时因为数据包处理逻辑问题无法匹配到该静态NAT，而是做完动态NAT后直接到达该公网地址了。现在区域无关NAT改变了设备在处理NAT时的数据包处理流程，无论哪个方向到来的数据包都会先匹配NAT策略，这样轻松的解决了NAT回流问题。</p>
 <h4 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h4><h5 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h5><p>将Client-2作为内网Server映射到公网地址200.1.1.4提供telnet服务<br>Client-1和外网Server能同时使用200.1.1.4这个地址telnet管理Client-2</p>
-<h5 id="拓扑"><a href="#拓扑" class="headerlink" title="拓扑"></a>拓扑</h5><p><img src="https://note.youdao.com/yws/public/resource/baa9c995a2a0e7e9d21f4806ec504596/xmlnote/D52461630EDF4E61A66F4AA375767C90/17263" alt="image"></p>
+<h5 id="拓扑"><a href="#拓扑" class="headerlink" title="拓扑"></a>拓扑</h5><p><img src="/images/NAT.png" alt=""></p>
 <h5 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">Client-1:</span><br><span class="line">Client-1(config)#inter f0/0</span><br><span class="line">Client-1(config-if)#ip add 192.168.2.2 255.255.255.0</span><br><span class="line">Client-1(config-if)#no shut</span><br><span class="line">Client-1(config)#ip route 0.0.0.0 0.0.0.0 192.168.2.1</span><br><span class="line">Client-1(config)#username  test privilege 15 password test</span><br><span class="line">Client-1(config)#line vty 0 15</span><br><span class="line">Client-1(config-line)#login local</span><br><span class="line"></span><br><span class="line">Client-2:</span><br><span class="line">Client-2(config)#inter f0/0</span><br><span class="line">Client-2(config-if)#ip add 192.168.2.3 255.255.255.0</span><br><span class="line">Client-2(config-if)#no shut</span><br><span class="line">Client-2(config)#ip route 0.0.0.0 0.0.0.0 192.168.2.1</span><br><span class="line">Client-2(config)#username  test privilege 15 password test</span><br><span class="line">Client-2(config)#line vty 0 15</span><br><span class="line">Client-2(config-line)#login local</span><br><span class="line"></span><br><span class="line">GW-WAN:</span><br><span class="line">GW-WAN(config)#inter f0/0</span><br><span class="line">GW-WAN(config-if)#ip add 192.168.2.1 255.255.255.0</span><br><span class="line">GW-WAN(config-if)#ip nat inside</span><br><span class="line">GW-WAN(config-if)#no shut</span><br><span class="line">GW-WAN(config-if)#inter f0/1</span><br><span class="line">GW-WAN(config-if)#ip add 200.1.1.2 255.255.255.0</span><br><span class="line">GW-WAN(config-if)#ip nat outside</span><br><span class="line">GW-WAN(config-if)#no shut</span><br><span class="line">GW-WAN(config)#ip route 0.0.0.0 0.0.0.0 200.1.1.1</span><br><span class="line"></span><br><span class="line">Internet:</span><br><span class="line">Internet(config)#inter f0/0</span><br><span class="line">Internet(config-if)#ip add 200.1.1.1 255.255.255.0</span><br><span class="line">Internet(config-if)#no shut</span><br><span class="line">Internet(config-if)#inter f0/1</span><br><span class="line">Internet(config-if)#ip add 100.1.1.1 255.255.255.0</span><br><span class="line">Internet(config-if)#no shut</span><br><span class="line"></span><br><span class="line">Server:</span><br><span class="line">Server(config)#inter f0/0</span><br><span class="line">Server(config-if)#ip add 100.1.1.100 255.255.255.0</span><br><span class="line">Server(config-if)#no shut</span><br><span class="line">Server(config)#ip route 0.0.0.0 0.0.0.0 100.1.1.1</span><br><span class="line">Server(config)#username test priv 15 password test</span><br><span class="line">Server(config)#line vty 0 15</span><br><span class="line">Server(config-line)#login local</span><br></pre></td></tr></table></figure>
 <h5 id="区域无关NAT配置"><a href="#区域无关NAT配置" class="headerlink" title="区域无关NAT配置"></a>区域无关NAT配置</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GW-WAN(config)#ip access-list ex test</span><br><span class="line">GW-WAN(config-ext-nacl)#permit ip 192.168.2.0 0.0.0.255 any  #匹配内网地址到所有地方的流量</span><br><span class="line">GW-WAN(config)#ip nat source list test interface f0/1 overload   #配置动态PAT保障内网用户正常上网</span><br><span class="line">GW-WAN(config)#ip nat source static 192.168.2.3 200.1.1.4   #把Client-2映射成公网地址，提供服务</span><br><span class="line">GW-WAN(config)#inter f0/0</span><br><span class="line">GW-WAN(config-if)#ip nat enable #开启区域无关NAT功能</span><br><span class="line">GW-WAN(config-if)#inter  f0/1</span><br><span class="line">GW-WAN(config-if)#ip nat enable  #开启区域网关NAT功能</span><br></pre></td></tr></table></figure>
 <h5 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h5><p>Client-1使用公网地址telnet管理Client-2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Client-1#telnet 200.1.1.4</span><br><span class="line">Trying 200.1.1.4 ... Open</span><br><span class="line">User Access Verification</span><br><span class="line">Username: test</span><br><span class="line">Password: </span><br><span class="line">Client-2#</span><br><span class="line">Client-2#exit</span><br><span class="line">[Connection to 200.1.1.4 closed by foreign host]</span><br></pre></td></tr></table></figure></p>
@@ -899,6 +935,499 @@
 <p>GW-WAN上转换表项<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GW-WAN#show   ip nat nvi translations </span><br><span class="line">Pro Source global      Source local       Destin  local      Destin  global</span><br><span class="line">tcp 100.1.1.100:37514  100.1.1.100:37514  200.1.1.4:23       192.168.2.3:23</span><br><span class="line">tcp 200.1.1.2:31321    192.168.2.2:31321  200.1.1.4:23       192.168.2.3:23</span><br><span class="line">--- 200.1.1.4          192.168.2.3        ---                ---</span><br></pre></td></tr></table></figure></p>
 <p>Cisco IOS NAT告一段落，接下来（openflow  or  ASA NAT ）</p>
 <p>在现在的设备中通常使用双向NAT解决，Cisco ASA中可以使用DNS重写功能实现。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://wccong.github.io/2018/06/10/QoS第一讲（发展、等级模型、工具）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Answer wu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Answer Wu's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/10/QoS第一讲（发展、等级模型、工具）/" itemprop="url">
+                  QoS第一讲（发展、等级模型、工具）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-06-10 22:17:52" itemprop="dateCreated datePublished" datetime="2018-06-10T22:17:52+08:00">2018-06-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-07-01 19:58:55" itemprop="dateModified" datetime="2018-07-01T19:58:55+08:00">2018-07-01</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/network/" itemprop="url" rel="index"><span itemprop="name">network</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/network/QoS/" itemprop="url" rel="index"><span itemprop="name">QoS</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/10/QoS第一讲（发展、等级模型、工具）/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/06/10/QoS第一讲（发展、等级模型、工具）/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="QoS发展史"><a href="#QoS发展史" class="headerlink" title="QoS发展史"></a>QoS发展史</h4><h5 id="初期阶段"><a href="#初期阶段" class="headerlink" title="初期阶段"></a>初期阶段</h5><p>创建Internet的先驱其实在最开始已经预见到了对流量提供服务质量的需求，在IP分组包头中添加了Tos字段。当然Internet在前期的时候这种需求还不明显所以Tos字段无关紧要。随着Internet逐渐普及QoS逐渐重要，Internet基于TCP/IP的尽力而为的无链路端到端服务，很容易导致网络的拥塞。鉴于WAN链路昂贵于是乎起初的QoS主要集中在终端系统，例如：TCP的nagle算法、TCP拥塞机制</p>
+<h5 id="中期阶段"><a href="#中期阶段" class="headerlink" title="中期阶段"></a>中期阶段</h5><p>仅仅依靠终端的QoS机制远远不能解决广域网中的拥塞问题，于是IETF与1994年发布了IntServ（综合服务模型）服务模型，使用RSVP（资源预留协议）对Internet中的每流提供资源预留，以此解决拥塞问题。但是IntServ有个很致命的问题，Internet中的流成千上万如果基于流进行控制，会有严重的灵活性和扩展性的问题；于是DiffServ（区分服务）服务模型出现，使得节点能更灵活的区分流量并且灵活提供服务质量。</p>
+<h5 id="后期阶段"><a href="#后期阶段" class="headerlink" title="后期阶段"></a>后期阶段</h5><p>IntServ能提供高质量精准的资源预留保证服务质量，但是灵活性和扩展性难以解决；DiffServ更加灵活但是没办法为流提供具体的带宽保证，不能给新流提供接入控制；IntServ和DiffServ各自有自己的优缺点，于是两种模型各有发展。也随着逐渐发展TE、自动QoS等技术也是逐渐出现。就像所有的产业的发展相同，最终QoS也将走向智能化。</p>
+<h4 id="等级模型"><a href="#等级模型" class="headerlink" title="等级模型"></a>等级模型</h4><h5 id="尽力而为的服务"><a href="#尽力而为的服务" class="headerlink" title="尽力而为的服务"></a>尽力而为的服务</h5><p>只提供最基本的连接，对于数据分组是否到达目的地不关心，网络状态良好一般不会出现问题，但是一旦出现拥塞就会产生数据分组丢失。这是Internet提供的唯一一种服务，不会提供任何的服务和保证。</p>
+<h5 id="区分服务"><a href="#区分服务" class="headerlink" title="区分服务"></a>区分服务</h5><p>根据流量标记对其进行分类，并根据已经配置好的行为处理数据分组，为各类分组提供不同的服务保证。</p>
+<h5 id="保证服务"><a href="#保证服务" class="headerlink" title="保证服务"></a>保证服务</h5><p>为相关类型的流进行端到端的资源预留，以满足该流的通信需求。例如：视频、语音这类应用需要这种服务。</p>
+<h4 id="QoS工具"><a href="#QoS工具" class="headerlink" title="QoS工具"></a>QoS工具</h4><h5 id="分类和标记工具"><a href="#分类和标记工具" class="headerlink" title="分类和标记工具"></a>分类和标记工具</h5><p>标记方法：CAR、PBR、QPPB、MQC<br>标记位：IPP(IP优先级)、DSCP、COS、MPLS试验位</p>
+<p>分类方法：MQC方式、NBAR(基于网络的应用识别)<br>分类参数：<br>    L1层参数：物理接口、自己扣、永久虚电路或端口<br>    L2层参数：MAC地址、802.1Q/p、Cos、vlan、MPLS EXP、ATM信源丢弃优先级（CLP）和帧中继可丢弃指示符（DE）位<br>    L3层参数：IP优先级、DSCP和源目IP地址<br>    L4层参数：TCP或UDP端口<br>    L7层参数：应用程序签名或有效负载中的统一资源定位符</p>
+<h5 id="管制和整形工具"><a href="#管制和整形工具" class="headerlink" title="管制和整形工具"></a>管制和整形工具</h5><h6 id="管制工具："><a href="#管制工具：" class="headerlink" title="管制工具："></a>管制工具：</h6><pre><code>CAR（承诺速率接入）
+MQC（基于类别的管制器）
+</code></pre><h6 id="整形工具"><a href="#整形工具" class="headerlink" title="整形工具"></a>整形工具</h6><pre><code>GTS（通用流量整形）
+DTS（分布式流量整形）
+</code></pre><h6 id="拥塞避免工具（其实就是排队机制）"><a href="#拥塞避免工具（其实就是排队机制）" class="headerlink" title="拥塞避免工具（其实就是排队机制）"></a>拥塞避免工具（其实就是排队机制）</h6><pre><code>基于流的WFQ
+基于类的CBWFQ
+优先级队列
+定制队列
+LLQ
+</code></pre><h5 id="拥塞管理工具"><a href="#拥塞管理工具" class="headerlink" title="拥塞管理工具"></a>拥塞管理工具</h5><p>数据包丢失机制，避免出现TCP全局同步<br>WRED（加权随机先期检测）</p>
+<h6 id="各个工具之间协同关系"><a href="#各个工具之间协同关系" class="headerlink" title="各个工具之间协同关系"></a>各个工具之间协同关系</h6><p><img src="/images/QoS1-1.png" alt=""></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://wccong.github.io/2018/06/10/QoS第二讲（标记字段IPP和ToS)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Answer wu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Answer Wu's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/10/QoS第二讲（标记字段IPP和ToS)/" itemprop="url">
+                  QoS第二讲（标记字段IPP和ToS）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-06-10 22:17:52" itemprop="dateCreated datePublished" datetime="2018-06-10T22:17:52+08:00">2018-06-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-07-01 20:03:10" itemprop="dateModified" datetime="2018-07-01T20:03:10+08:00">2018-07-01</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/network/" itemprop="url" rel="index"><span itemprop="name">network</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/network/QoS/" itemprop="url" rel="index"><span itemprop="name">QoS</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/10/QoS第二讲（标记字段IPP和ToS)/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/06/10/QoS第二讲（标记字段IPP和ToS)/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>这两天一直准备写IPP和ToS,但是感觉自己还是不太理解这两个字段规划的来源，于是找到相关的IPP和ToS的RFC文档（791和1349）读了一下。原于自己英文水平有限只是大概了解其中的局部内容，现在在这里简单说一下。如果有机会看完1349后会再对ToS单独来一篇。</p>
+<p>下文中Tos位定义以RFC1349为准。   </p>
+<p>在RFC791中首次对服务质量字段进行了定义，将8位的服务质量字段分为了三部分，IP优先级（3位）、Tos功能位（3位）、预留位（2位），详见下图。</p>
+<p><img src="/images/QoS2-1.png" alt=""><br>IP优先级字段（IPP）：标记数据包的重要程度</p>
+<table>
+<thead>
+<tr>
+<th>位</th>
+<th>含义</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>    7-5位</td>
+<td>111 网络控制</td>
+<td>网络中控制报文</td>
+</tr>
+<tr>
+<td>    7-5位</td>
+<td>110 互联网络控制</td>
+<td>网络中控制报文</td>
+</tr>
+<tr>
+<td>    7-5位</td>
+<td>101 关键</td>
+<td>语音流量</td>
+</tr>
+<tr>
+<td>    7-5位</td>
+<td>100 急速</td>
+<td>交互式视频流量</td>
+</tr>
+<tr>
+<td>    7-5位</td>
+<td>011 闪速</td>
+<td>语音信令流量</td>
+</tr>
+<tr>
+<td>    7-5位</td>
+<td>010 快速</td>
+<td>数据业务</td>
+</tr>
+<tr>
+<td>    7-5位</td>
+<td>001 优先</td>
+<td>非重要流量</td>
+</tr>
+<tr>
+<td>    7-5位</td>
+<td>000 普通</td>
+<td>默认缺省</td>
+</tr>
+</tbody>
+</table>
+<p>ToS功能位：网络传输中对低延迟、高吞吐、高可靠的衡量</p>
+<table>
+<thead>
+<tr>
+<th>位</th>
+<th>含义</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>    Bit3：</td>
+<td>置1代表低延迟</td>
+<td>置0代表正常延迟</td>
+</tr>
+<tr>
+<td>    Bit4：</td>
+<td>置1代表高吞吐</td>
+<td>置0代表正常吞吐</td>
+</tr>
+<tr>
+<td>    Bit5：</td>
+<td>置1代表高可靠</td>
+<td>置0代表正常可靠</td>
+</tr>
+</tbody>
+</table>
+<p>在791中写道在网络传输中一种性能开启总没有两种性能开启展现出的性能更好，所以往往这三位中的多位都会被开启（置1）。</p>
+<p>保留字段：对未来发展提供可能性</p>
+<p>在RFC1349中IPP没有对其进行重新定义，但是对Tos功能位进行了重新定义。详解下图：<br>Tos 功能位：增加了1位，用于最小代价<br>位 | 含义 | 用途<br>—|— | —<br>    Bit3： | 置1代表低延迟    |  置0代表正常延迟<br>    Bit4： | 置1代表高吞吐    |  置0代表正常吞吐<br>    Bit5： | 置1代表高可靠    |  置0代表正常可靠<br>    Bit6： | 置1代表最小代价  |  置0代表正常代价</p>
+<p>其实在RFC1349中不仅仅是这一位的变化，它最彻底的变化在于不再允许多个功能位同时置位，这4位之间不再和以前的3位哪像以逻辑与的方式出现，而是以整数形式出现，并且明确定义了5种功能。</p>
+<pre><code>1000    --------    最小延迟
+
+0100    --------    最大吞吐
+
+0010    --------    最大可靠
+
+0001    --------    最小代价
+</code></pre><p>文中又指出如果其他整数值出现是完全被允许的（只是工程组没有对其进行定义，留在未来作为预留），但是在网络传输过程中只有被定义的这5个整数值被默认使用。同时改字段不会在发生改变因为4位有16中功能类型，已经完全足够满足未来的使用。</p>
+<p>最重要的一点，RFC1349中ToS为对RFC791中的ToS位是兼容的（因为几乎所有的网络协议是不会同时设置多个功能位，虽然RFC791中支持）</p>
+<p>MBZ位：也就是保留位</p>
+<p>ToS功能位虽然我们在实际的QoS设置中基本不会使用但是它在ICMP和OSPF、ISIS报文中有非常重要的应用。（以后详说or自行查看RFC1349）</p>
+<p>其实我们最用该了解的是IPP，它在QoS中起到了重要的最用，用于对流量标记、分类从而对转发行为进行控制，但是几个RFC文档中都是对其寥寥数据（总要在于用途，没有太多描述也在于它的作用性明确）。下讲将会介绍DSCP位。</p>
 
           
         
@@ -998,12 +1527,24 @@
                 
               
 
-              <time title="创建时间：2018-06-10 22:16:50 / 修改时间：22:17:24" itemprop="dateCreated datePublished" datetime="2018-06-10T22:16:50+08:00">2018-06-10</time>
+              <time title="创建时间：2018-06-10 22:16:50" itemprop="dateCreated datePublished" datetime="2018-06-10T22:16:50+08:00">2018-06-10</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-07-01 19:35:14" itemprop="dateModified" datetime="2018-07-01T19:35:14+08:00">2018-07-01</time>
               
             
           </span>
@@ -1087,7 +1628,7 @@
 <li>ip nat inside destination #负载均衡</li>
 <li>ip nat outside source #配合其他类型进行双向地址伪装</li>
 </ul>
-<h4 id="配置详解"><a href="#配置详解" class="headerlink" title="配置详解"></a>配置详解</h4><h5 id="拓扑图"><a href="#拓扑图" class="headerlink" title="拓扑图"></a>拓扑图</h5><p><img src="https://note.youdao.com/yws/public/resource/baa9c995a2a0e7e9d21f4806ec504596/xmlnote/D52461630EDF4E61A66F4AA375767C90/17263" alt="image"></p>
+<h4 id="配置详解"><a href="#配置详解" class="headerlink" title="配置详解"></a>配置详解</h4><h5 id="拓扑图"><a href="#拓扑图" class="headerlink" title="拓扑图"></a>拓扑图</h5><p><img src="/images/NAT.png" alt=""></p>
 <h5 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">Client-1:</span><br><span class="line">Client-1(config)#inter f0/0</span><br><span class="line">Client-1(config-if)#ip add 192.168.2.2 255.255.255.0</span><br><span class="line">Client-1(config-if)#no shut</span><br><span class="line">Client-1(config)#ip route 0.0.0.0 0.0.0.0 192.168.2.1</span><br><span class="line">Client-1(config)#username  test privilege 15 password test</span><br><span class="line">Client-1(config)#line vty 0 15</span><br><span class="line">Client-1(config-line)#login local</span><br><span class="line"></span><br><span class="line">Client-2:</span><br><span class="line">Client-2(config)#inter f0/0</span><br><span class="line">Client-2(config-if)#ip add 192.168.2.3 255.255.255.0</span><br><span class="line">Client-2(config-if)#no shut</span><br><span class="line">Client-2(config)#ip route 0.0.0.0 0.0.0.0 192.168.2.1</span><br><span class="line">Client-2(config)#username  test privilege 15 password test</span><br><span class="line">Client-2(config)#line vty 0 15</span><br><span class="line">Client-2(config-line)#login local</span><br><span class="line"></span><br><span class="line">GW-WAN:</span><br><span class="line">GW-WAN(config)#inter f0/0</span><br><span class="line">GW-WAN(config-if)#ip add 192.168.2.1 255.255.255.0</span><br><span class="line">GW-WAN(config-if)#ip nat inside</span><br><span class="line">GW-WAN(config-if)#no shut</span><br><span class="line">GW-WAN(config-if)#inter f0/1</span><br><span class="line">GW-WAN(config-if)#ip add 200.1.1.2 255.255.255.0</span><br><span class="line">GW-WAN(config-if)#ip nat outside</span><br><span class="line">GW-WAN(config-if)#no shut</span><br><span class="line">GW-WAN(config)#ip route 0.0.0.0 0.0.0.0 200.1.1.1</span><br><span class="line"></span><br><span class="line">Internet:</span><br><span class="line">Internet(config)#inter f0/0</span><br><span class="line">Internet(config-if)#ip add 200.1.1.1 255.255.255.0</span><br><span class="line">Internet(config-if)#no shut</span><br><span class="line">Internet(config-if)#inter f0/1</span><br><span class="line">Internet(config-if)#ip add 100.1.1.1 255.255.255.0</span><br><span class="line">Internet(config-if)#no shut</span><br><span class="line"></span><br><span class="line">Server:</span><br><span class="line">Server(config)#inter f0/0</span><br><span class="line">Server(config-if)#ip add 100.1.1.100 255.255.255.0</span><br><span class="line">Server(config-if)#no shut</span><br><span class="line">Server(config)#ip route 0.0.0.0 0.0.0.0 100.1.1.1</span><br><span class="line">Server(config)#username test priv 15 password test</span><br><span class="line">Server(config)#line vty 0 15</span><br><span class="line">Server(config-line)#login local</span><br></pre></td></tr></table></figure>
 <h5 id="ip-nat-inside-source"><a href="#ip-nat-inside-source" class="headerlink" title="ip nat inside source"></a>ip nat inside source</h5><p>此为最常见的配置方式这里不再赘述</p>
 <h4 id="ip-nat-inside-destion"><a href="#ip-nat-inside-destion" class="headerlink" title="ip nat inside destion"></a>ip nat inside destion</h4><p>（可用于负载均衡TCP）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">配置</span><br><span class="line">GW-WAN(config)# ip access-list extended outside-ip</span><br><span class="line">GW-WAN(config-ext-nacl)# permit ip any host 200.1.1.6</span><br><span class="line">GW-WAN(config-ext-nacl)#exit</span><br><span class="line">GW-WAN(config)#ip nat pool inside-ip 192.168.2.2 192.168.2.3 netmask 255.255.255.0 type rotary </span><br><span class="line">#rotary配置后地址池内地址为轮询转态，用于负载轮询</span><br><span class="line">GW-WAN(config)#ip nat inside destination list outside-ip pool inside-ip</span><br><span class="line"></span><br><span class="line">测试</span><br><span class="line">#当从Server第一次telnet 200.1.1.6这个地址时我们进入的是Client-1设备，当我们退出后再进入后就是Client-2设备了</span><br><span class="line">#所以以一种简单的方式实现了简单的负载均衡</span><br><span class="line">Server#telnet 200.1.1.6</span><br><span class="line">Trying 200.1.1.6 ... Open</span><br><span class="line">User Access Verification</span><br><span class="line">Username: test</span><br><span class="line">Password: </span><br><span class="line">Client-1# </span><br><span class="line">Client-1#exit</span><br><span class="line">[Connection to 200.1.1.6 closed by foreign host]</span><br><span class="line"></span><br><span class="line">Server#telnet 200.1.1.6</span><br><span class="line">Trying 200.1.1.6 ... Open</span><br><span class="line">User Access Verification</span><br><span class="line">Username: test</span><br><span class="line">Password: </span><br><span class="line">Client-2#</span><br><span class="line">Client-2#exit</span><br><span class="line">[Connection to 200.1.1.6 closed by foreign host]</span><br><span class="line"></span><br><span class="line">#在NAT设备上我们可以清晰看到设备产生了两条映射关系，一条200.1.1.6指向2.2，另外一个指向2.3</span><br><span class="line">GW-WAN(config)#do show ip  nat tr</span><br><span class="line">Pro Inside global      Inside local       Outside local      Outside global</span><br><span class="line">tcp 200.1.1.6:23       192.168.2.2:23     100.1.1.100:34623  100.1.1.100:34623</span><br><span class="line">tcp 200.1.1.6:23       192.168.2.3:23     100.1.1.100:60762  100.1.1.100:60762</span><br></pre></td></tr></table></figure></p>
@@ -1192,12 +1733,24 @@
                 
               
 
-              <time title="创建时间：2018-06-10 22:06:05 / 修改时间：22:10:38" itemprop="dateCreated datePublished" datetime="2018-06-10T22:06:05+08:00">2018-06-10</time>
+              <time title="创建时间：2018-06-10 22:06:05" itemprop="dateCreated datePublished" datetime="2018-06-10T22:06:05+08:00">2018-06-10</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-07-01 19:34:56" itemprop="dateModified" datetime="2018-07-01T19:34:56+08:00">2018-07-01</time>
               
             
           </span>
@@ -1274,7 +1827,7 @@
 <h5 id="动态NAT"><a href="#动态NAT" class="headerlink" title="动态NAT"></a>动态NAT</h5><p>动态NAT就是把本地局域网IP地址和外部公网地址池中的某个地址进行一对一的映射，与静态NAT最大的不同点在于，该映射关系存在时效性，会随着应用和时间不断更改映射关系</p>
 <h5 id="静态PAT"><a href="#静态PAT" class="headerlink" title="静态PAT"></a>静态PAT</h5><p>静态PAT与静态NAT非常相似，也是一对一映射关系，映射关系不存在时效性，但是最大的不同在于端口参数的介于，只是把本地局域网IP和端口与公网IP地址和端口进行了一对一的映射，这样一个公网地址可以映射出65535+65535（TCP+UDP）个局域网设备</p>
 <h5 id="动态PAT"><a href="#动态PAT" class="headerlink" title="动态PAT"></a>动态PAT</h5><p>动态PAT和动态NAT与静态PAT和静态NAT的关系类似，在动态PAT中局域网IP与端口会和公网地址与端口产生一对一的映射关系，但是映射关系存在时效性，IP和端口的接口也让多个局域网地址可以共同使用一个公网地址进行常规网络活动</p>
-<h4 id="IOS中NAT的配置"><a href="#IOS中NAT的配置" class="headerlink" title="IOS中NAT的配置"></a>IOS中NAT的配置</h4><h5 id="实验拓扑"><a href="#实验拓扑" class="headerlink" title="实验拓扑"></a>实验拓扑</h5><p><img src="https://note.youdao.com/yws/public/resource/baa9c995a2a0e7e9d21f4806ec504596/xmlnote/D52461630EDF4E61A66F4AA375767C90/17263" alt="image"></p>
+<h4 id="IOS中NAT的配置"><a href="#IOS中NAT的配置" class="headerlink" title="IOS中NAT的配置"></a>IOS中NAT的配置</h4><h5 id="实验拓扑"><a href="#实验拓扑" class="headerlink" title="实验拓扑"></a>实验拓扑</h5><p><img src="/images/NAT.png" alt=""></p>
 <h5 id="基础配置："><a href="#基础配置：" class="headerlink" title="基础配置："></a>基础配置：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">Client-1:</span><br><span class="line">Client-1(config)#inter f0/0</span><br><span class="line">Client-1(config-if)#ip add 192.168.2.2 255.255.255.0</span><br><span class="line">Client-1(config-if)#no shut</span><br><span class="line">Client-1(config)#ip route 0.0.0.0 0.0.0.0 192.168.2.1</span><br><span class="line">Client-1(config)#username  test privilege 15 password test</span><br><span class="line">Client-1(config)#line vty 0 15</span><br><span class="line">Client-1(config-line)#login local</span><br><span class="line"></span><br><span class="line">Client-2:</span><br><span class="line">Client-2(config)#inter f0/0</span><br><span class="line">Client-2(config-if)#ip add 192.168.2.3 255.255.255.0</span><br><span class="line">Client-2(config-if)#no shut</span><br><span class="line">Client-2(config)#ip route 0.0.0.0 0.0.0.0 192.168.2.1</span><br><span class="line">Client-2(config)#username  test privilege 15 password test</span><br><span class="line">Client-2(config)#line vty 0 15</span><br><span class="line">Client-2(config-line)#login local</span><br><span class="line"></span><br><span class="line">GW-WAN:</span><br><span class="line">GW-WAN(config)#inter f0/0</span><br><span class="line">GW-WAN(config-if)#ip add 192.168.2.1 255.255.255.0</span><br><span class="line">GW-WAN(config-if)#ip nat inside</span><br><span class="line">GW-WAN(config-if)#no shut</span><br><span class="line">GW-WAN(config-if)#inter f0/1</span><br><span class="line">GW-WAN(config-if)#ip add 200.1.1.2 255.255.255.0</span><br><span class="line">GW-WAN(config-if)#ip nat outside</span><br><span class="line">GW-WAN(config-if)#no shut</span><br><span class="line">GW-WAN(config)#ip route 0.0.0.0 0.0.0.0 200.1.1.1</span><br><span class="line"></span><br><span class="line">Internet:</span><br><span class="line">Internet(config)#inter f0/0</span><br><span class="line">Internet(config-if)#ip add 200.1.1.1 255.255.255.0</span><br><span class="line">Internet(config-if)#no shut</span><br><span class="line">Internet(config-if)#inter f0/1</span><br><span class="line">Internet(config-if)#ip add 100.1.1.1 255.255.255.0</span><br><span class="line">Internet(config-if)#no shut</span><br><span class="line"></span><br><span class="line">Server:</span><br><span class="line">Server(config)#inter f0/0</span><br><span class="line">Server(config-if)#ip add 100.1.1.100 255.255.255.0</span><br><span class="line">Server(config-if)#no shut</span><br><span class="line">Server(config)#ip route 0.0.0.0 0.0.0.0 100.1.1.1</span><br><span class="line">Server(config)#username test priv 15 password test</span><br><span class="line">Server(config)#line vty 0 15</span><br><span class="line">Server(config-line)#login local</span><br></pre></td></tr></table></figure>
 <h5 id="静态NAT-1"><a href="#静态NAT-1" class="headerlink" title="静态NAT"></a>静态NAT</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">#配置</span><br><span class="line">GW-WAN(config)#ip nat inside source static 192.168.2.2 200.1.1.3 </span><br><span class="line">GW-WAN(config)#ip nat inside source static 192.168.2.3 200.1.1.4 </span><br><span class="line"></span><br><span class="line">#测试</span><br><span class="line">Server:</span><br><span class="line">Server#telnet 200.1.1.3</span><br><span class="line">Trying 200.1.1.3 ... Open</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">User Access Verification</span><br><span class="line"></span><br><span class="line">Username: test</span><br><span class="line">Password: </span><br><span class="line">Client-1#exit</span><br><span class="line"></span><br><span class="line">[Connection to 200.1.1.3 closed by foreign host]</span><br><span class="line">Server#telnet 200.1.1.4</span><br><span class="line">Trying 200.1.1.4 ... Open</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">User Access Verification</span><br><span class="line"></span><br><span class="line">Username: test</span><br><span class="line">Password: </span><br><span class="line">Client-2#exit</span><br><span class="line"></span><br><span class="line">[Connection to 200.1.1.4 closed by foreign host]</span><br></pre></td></tr></table></figure>
 <h5 id="动态NAT-1"><a href="#动态NAT-1" class="headerlink" title="动态NAT"></a>动态NAT</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">#配置</span><br><span class="line">GW-WAN(config)#ip access-list extended client</span><br><span class="line">GW-WAN(config-ext-nacl)#permit ip host 192.168.2.2 any</span><br><span class="line">GW-WAN(config-ext-nacl)#permit ip host 192.168.2.3 any</span><br><span class="line">GW-WAN(config)#ip nat pool Nat 200.1.1.5 200.1.1.6 netmask 255.255.255.252</span><br><span class="line">GW-WAN(config)#ip nat inside source list client pool Nat </span><br><span class="line"></span><br><span class="line">#测试</span><br><span class="line">Client-1:</span><br><span class="line">Client-1#ping 100.1.1.100 repeat 100</span><br><span class="line"></span><br><span class="line">Client-2:</span><br><span class="line">Client-2#ping 100.1.1.100 repeat 100</span><br><span class="line"></span><br><span class="line">GW-WAN:</span><br><span class="line">GW-WAN#show ip nat translations </span><br><span class="line">Pro Inside global      Inside local       Outside local      Outside global</span><br><span class="line">--- 200.1.1.5          192.168.2.2        ---                ---</span><br><span class="line">--- 200.1.1.6          192.168.2.3        ---                ---</span><br><span class="line"></span><br><span class="line">Server:</span><br><span class="line">Server#debug ip icmp</span><br><span class="line">*Mar  1 00:58:37.799: ICMP: echo reply sent, src 100.1.1.100, dst 200.1.1.5</span><br><span class="line">*Mar  1 00:58:37.799: ICMP: echo reply sent, src 100.1.1.100, dst 200.1.1.6</span><br></pre></td></tr></table></figure>
@@ -1366,7 +1919,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1387,7 +1940,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>

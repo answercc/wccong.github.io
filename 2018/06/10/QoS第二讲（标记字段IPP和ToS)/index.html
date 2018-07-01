@@ -108,21 +108,27 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="schedule">
-<meta property="og:url" content="https://wccong.github.io/schedule/index.html">
+  <meta name="description" content="这两天一直准备写IPP和ToS,但是感觉自己还是不太理解这两个字段规划的来源，于是找到相关的IPP和ToS的RFC文档（791和1349）读了一下。原于自己英文水平有限只是大概了解其中的局部内容，现在在这里简单说一下。如果有机会看完1349后会再对ToS单独来一篇。 下文中Tos位定义以RFC1349为准。    在RFC791中首次对服务质量字段进行了定义，将8位的服务质量字段分为了三部分，IP">
+<meta name="keywords" content="network">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QoS第二讲（标记字段IPP和ToS）">
+<meta property="og:url" content="https://wccong.github.io/2018/06/10/QoS第二讲（标记字段IPP和ToS)/index.html">
 <meta property="og:site_name" content="Answer Wu&#39;s Blog">
+<meta property="og:description" content="这两天一直准备写IPP和ToS,但是感觉自己还是不太理解这两个字段规划的来源，于是找到相关的IPP和ToS的RFC文档（791和1349）读了一下。原于自己英文水平有限只是大概了解其中的局部内容，现在在这里简单说一下。如果有机会看完1349后会再对ToS单独来一篇。 下文中Tos位定义以RFC1349为准。    在RFC791中首次对服务质量字段进行了定义，将8位的服务质量字段分为了三部分，IP">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-06-10T12:56:11.046Z">
+<meta property="og:image" content="https://wccong.github.io/images/QoS2-1.png">
+<meta property="og:updated_time" content="2018-07-01T12:03:10.797Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="schedule">
+<meta name="twitter:title" content="QoS第二讲（标记字段IPP和ToS）">
+<meta name="twitter:description" content="这两天一直准备写IPP和ToS,但是感觉自己还是不太理解这两个字段规划的来源，于是找到相关的IPP和ToS的RFC文档（791和1349）读了一下。原于自己英文水平有限只是大概了解其中的局部内容，现在在这里简单说一下。如果有机会看完1349后会再对ToS单独来一篇。 下文中Tos位定义以RFC1349为准。    在RFC791中首次对服务质量字段进行了定义，将8位的服务质量字段分为了三部分，IP">
+<meta name="twitter:image" content="https://wccong.github.io/images/QoS2-1.png">
 
 
 
 
 
 
-  <link rel="canonical" href="https://wccong.github.io/schedule/"/>
+  <link rel="canonical" href="https://wccong.github.io/2018/06/10/QoS第二讲（标记字段IPP和ToS)/"/>
 
 
 
@@ -132,7 +138,7 @@
   };
 </script>
 
-  <title>schedule | Answer Wu's Blog</title>
+  <title>QoS第二讲（标记字段IPP和ToS） | Answer Wu's Blog</title>
   
 
 
@@ -312,71 +318,318 @@
           
             
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
           
           <div id="content" class="content">
             
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://wccong.github.io/2018/06/10/QoS第二讲（标记字段IPP和ToS)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Answer wu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Answer Wu's Blog">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-<h1 class="post-title" itemprop="name headline">schedule</h1>
-
-<div class="post-meta">
-  
-  
-
-
-
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
+          <h1 class="post-title" itemprop="name headline">QoS第二讲（标记字段IPP和ToS）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-06-10 22:17:52" itemprop="dateCreated datePublished" datetime="2018-06-10T22:17:52+08:00">2018-06-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-07-01 20:03:10" itemprop="dateModified" datetime="2018-07-01T20:03:10+08:00">2018-07-01</time>
+              
+            
+          </span>
+
           
-        
-      </div>
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/network/" itemprop="url" rel="index"><span itemprop="name">network</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/network/QoS/" itemprop="url" rel="index"><span itemprop="name">QoS</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/10/QoS第二讲（标记字段IPP和ToS)/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/06/10/QoS第二讲（标记字段IPP和ToS)/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <p>这两天一直准备写IPP和ToS,但是感觉自己还是不太理解这两个字段规划的来源，于是找到相关的IPP和ToS的RFC文档（791和1349）读了一下。原于自己英文水平有限只是大概了解其中的局部内容，现在在这里简单说一下。如果有机会看完1349后会再对ToS单独来一篇。</p>
+<p>下文中Tos位定义以RFC1349为准。   </p>
+<p>在RFC791中首次对服务质量字段进行了定义，将8位的服务质量字段分为了三部分，IP优先级（3位）、Tos功能位（3位）、预留位（2位），详见下图。</p>
+<p><img src="/images/QoS2-1.png" alt=""><br>IP优先级字段（IPP）：标记数据包的重要程度</p>
+<table>
+<thead>
+<tr>
+<th>位</th>
+<th>含义</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>    7-5位</td>
+<td>111 网络控制</td>
+<td>网络中控制报文</td>
+</tr>
+<tr>
+<td>    7-5位</td>
+<td>110 互联网络控制</td>
+<td>网络中控制报文</td>
+</tr>
+<tr>
+<td>    7-5位</td>
+<td>101 关键</td>
+<td>语音流量</td>
+</tr>
+<tr>
+<td>    7-5位</td>
+<td>100 急速</td>
+<td>交互式视频流量</td>
+</tr>
+<tr>
+<td>    7-5位</td>
+<td>011 闪速</td>
+<td>语音信令流量</td>
+</tr>
+<tr>
+<td>    7-5位</td>
+<td>010 快速</td>
+<td>数据业务</td>
+</tr>
+<tr>
+<td>    7-5位</td>
+<td>001 优先</td>
+<td>非重要流量</td>
+</tr>
+<tr>
+<td>    7-5位</td>
+<td>000 普通</td>
+<td>默认缺省</td>
+</tr>
+</tbody>
+</table>
+<p>ToS功能位：网络传输中对低延迟、高吞吐、高可靠的衡量</p>
+<table>
+<thead>
+<tr>
+<th>位</th>
+<th>含义</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>    Bit3：</td>
+<td>置1代表低延迟</td>
+<td>置0代表正常延迟</td>
+</tr>
+<tr>
+<td>    Bit4：</td>
+<td>置1代表高吞吐</td>
+<td>置0代表正常吞吐</td>
+</tr>
+<tr>
+<td>    Bit5：</td>
+<td>置1代表高可靠</td>
+<td>置0代表正常可靠</td>
+</tr>
+</tbody>
+</table>
+<p>在791中写道在网络传输中一种性能开启总没有两种性能开启展现出的性能更好，所以往往这三位中的多位都会被开启（置1）。</p>
+<p>保留字段：对未来发展提供可能性</p>
+<p>在RFC1349中IPP没有对其进行重新定义，但是对Tos功能位进行了重新定义。详解下图：<br>Tos 功能位：增加了1位，用于最小代价<br>位 | 含义 | 用途<br>—|— | —<br>    Bit3： | 置1代表低延迟    |  置0代表正常延迟<br>    Bit4： | 置1代表高吞吐    |  置0代表正常吞吐<br>    Bit5： | 置1代表高可靠    |  置0代表正常可靠<br>    Bit6： | 置1代表最小代价  |  置0代表正常代价</p>
+<p>其实在RFC1349中不仅仅是这一位的变化，它最彻底的变化在于不再允许多个功能位同时置位，这4位之间不再和以前的3位哪像以逻辑与的方式出现，而是以整数形式出现，并且明确定义了5种功能。</p>
+<pre><code>1000    --------    最小延迟
+
+0100    --------    最大吞吐
+
+0010    --------    最大可靠
+
+0001    --------    最小代价
+</code></pre><p>文中又指出如果其他整数值出现是完全被允许的（只是工程组没有对其进行定义，留在未来作为预留），但是在网络传输过程中只有被定义的这5个整数值被默认使用。同时改字段不会在发生改变因为4位有16中功能类型，已经完全足够满足未来的使用。</p>
+<p>最重要的一点，RFC1349中ToS为对RFC791中的ToS位是兼容的（因为几乎所有的网络协议是不会同时设置多个功能位，虽然RFC791中支持）</p>
+<p>MBZ位：也就是保留位</p>
+<p>ToS功能位虽然我们在实际的QoS设置中基本不会使用但是它在ICMP和OSPF、ISIS报文中有非常重要的应用。（以后详说or自行查看RFC1349）</p>
+<p>其实我们最用该了解的是IPP，它在QoS中起到了重要的最用，用于对流量标记、分类从而对转发行为进行控制，但是几个RFC文档中都是对其寥寥数据（总要在于用途，没有太多描述也在于它的作用性明确）。下讲将会介绍DSCP位。</p>
+
       
     </div>
+
     
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/network/" rel="tag"># network</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/10/Cisco路由交换-NAT详解二/" rel="next" title="Cisco路由交换-NAT详解二">
+                <i class="fa fa-chevron-left"></i> Cisco路由交换-NAT详解二
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/10/QoS第一讲（发展、等级模型、工具）/" rel="prev" title="QoS第一讲（发展、等级模型、工具）">
+                QoS第一讲（发展、等级模型、工具） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
 
 
 
-    
-    
-    
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -664,9 +917,9 @@
   
     <script type="text/javascript">
       var disqus_config = function () {
-        this.page.url = 'https://wccong.github.io/schedule/index.html';
-        this.page.identifier = 'schedule/index.html';
-        this.page.title = 'schedule';
+        this.page.url = 'https://wccong.github.io/2018/06/10/QoS第二讲（标记字段IPP和ToS)/';
+        this.page.identifier = '2018/06/10/QoS第二讲（标记字段IPP和ToS)/';
+        this.page.title = 'QoS第二讲（标记字段IPP和ToS）';
         };
       function loadComments () {
         var d = document, s = d.createElement('script');

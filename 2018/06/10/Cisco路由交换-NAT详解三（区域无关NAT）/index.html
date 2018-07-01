@@ -116,12 +116,12 @@
 <meta property="og:site_name" content="Answer Wu&#39;s Blog">
 <meta property="og:description" content="概述上篇文章介绍了在不同区域下各个参数搭配使用的不同效果（实现tcp的负载均衡、地址伪装），今天给大家带了一个不太被常用但是确实很好用的NAT配置方法。大家应该很清楚常规的NAT配置下经常会碰到NAT回流的问题（内部的服务器映射给公网使用，常规ip nat inside source static映射后，外网用户可以正常访问该服务器，但是内网用户则无法使用该服务器映射公网地址访问服务器）。归根结底">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://note.youdao.com/yws/public/resource/baa9c995a2a0e7e9d21f4806ec504596/xmlnote/D52461630EDF4E61A66F4AA375767C90/17263">
-<meta property="og:updated_time" content="2018-06-10T14:18:24.197Z">
+<meta property="og:image" content="https://wccong.github.io/images/NAT.png">
+<meta property="og:updated_time" content="2018-07-01T11:35:39.872Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cisco路由交换-NAT详解三（区域无关NAT）">
 <meta name="twitter:description" content="概述上篇文章介绍了在不同区域下各个参数搭配使用的不同效果（实现tcp的负载均衡、地址伪装），今天给大家带了一个不太被常用但是确实很好用的NAT配置方法。大家应该很清楚常规的NAT配置下经常会碰到NAT回流的问题（内部的服务器映射给公网使用，常规ip nat inside source static映射后，外网用户可以正常访问该服务器，但是内网用户则无法使用该服务器映射公网地址访问服务器）。归根结底">
-<meta name="twitter:image" content="https://note.youdao.com/yws/public/resource/baa9c995a2a0e7e9d21f4806ec504596/xmlnote/D52461630EDF4E61A66F4AA375767C90/17263">
+<meta name="twitter:image" content="https://wccong.github.io/images/NAT.png">
 
 
 
@@ -380,12 +380,24 @@
                 
               
 
-              <time title="创建时间：2018-06-10 22:17:52 / 修改时间：22:18:24" itemprop="dateCreated datePublished" datetime="2018-06-10T22:17:52+08:00">2018-06-10</time>
+              <time title="创建时间：2018-06-10 22:17:52" itemprop="dateCreated datePublished" datetime="2018-06-10T22:17:52+08:00">2018-06-10</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-07-01 19:35:39" itemprop="dateModified" datetime="2018-07-01T19:35:39+08:00">2018-07-01</time>
               
             
           </span>
@@ -457,7 +469,7 @@
       
         <h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>上篇文章介绍了在不同区域下各个参数搭配使用的不同效果（实现tcp的负载均衡、地址伪装），今天给大家带了一个不太被常用但是确实很好用的NAT配置方法。大家应该很清楚常规的NAT配置下经常会碰到NAT回流的问题（内部的服务器映射给公网使用，常规ip nat inside source static映射后，外网用户可以正常访问该服务器，但是内网用户则无法使用该服务器映射公网地址访问服务器）。归根结底问题出在内网用户访问其公网地址时因为数据包处理逻辑问题无法匹配到该静态NAT，而是做完动态NAT后直接到达该公网地址了。现在区域无关NAT改变了设备在处理NAT时的数据包处理流程，无论哪个方向到来的数据包都会先匹配NAT策略，这样轻松的解决了NAT回流问题。</p>
 <h4 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h4><h5 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h5><p>将Client-2作为内网Server映射到公网地址200.1.1.4提供telnet服务<br>Client-1和外网Server能同时使用200.1.1.4这个地址telnet管理Client-2</p>
-<h5 id="拓扑"><a href="#拓扑" class="headerlink" title="拓扑"></a>拓扑</h5><p><img src="https://note.youdao.com/yws/public/resource/baa9c995a2a0e7e9d21f4806ec504596/xmlnote/D52461630EDF4E61A66F4AA375767C90/17263" alt="image"></p>
+<h5 id="拓扑"><a href="#拓扑" class="headerlink" title="拓扑"></a>拓扑</h5><p><img src="/images/NAT.png" alt=""></p>
 <h5 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">Client-1:</span><br><span class="line">Client-1(config)#inter f0/0</span><br><span class="line">Client-1(config-if)#ip add 192.168.2.2 255.255.255.0</span><br><span class="line">Client-1(config-if)#no shut</span><br><span class="line">Client-1(config)#ip route 0.0.0.0 0.0.0.0 192.168.2.1</span><br><span class="line">Client-1(config)#username  test privilege 15 password test</span><br><span class="line">Client-1(config)#line vty 0 15</span><br><span class="line">Client-1(config-line)#login local</span><br><span class="line"></span><br><span class="line">Client-2:</span><br><span class="line">Client-2(config)#inter f0/0</span><br><span class="line">Client-2(config-if)#ip add 192.168.2.3 255.255.255.0</span><br><span class="line">Client-2(config-if)#no shut</span><br><span class="line">Client-2(config)#ip route 0.0.0.0 0.0.0.0 192.168.2.1</span><br><span class="line">Client-2(config)#username  test privilege 15 password test</span><br><span class="line">Client-2(config)#line vty 0 15</span><br><span class="line">Client-2(config-line)#login local</span><br><span class="line"></span><br><span class="line">GW-WAN:</span><br><span class="line">GW-WAN(config)#inter f0/0</span><br><span class="line">GW-WAN(config-if)#ip add 192.168.2.1 255.255.255.0</span><br><span class="line">GW-WAN(config-if)#ip nat inside</span><br><span class="line">GW-WAN(config-if)#no shut</span><br><span class="line">GW-WAN(config-if)#inter f0/1</span><br><span class="line">GW-WAN(config-if)#ip add 200.1.1.2 255.255.255.0</span><br><span class="line">GW-WAN(config-if)#ip nat outside</span><br><span class="line">GW-WAN(config-if)#no shut</span><br><span class="line">GW-WAN(config)#ip route 0.0.0.0 0.0.0.0 200.1.1.1</span><br><span class="line"></span><br><span class="line">Internet:</span><br><span class="line">Internet(config)#inter f0/0</span><br><span class="line">Internet(config-if)#ip add 200.1.1.1 255.255.255.0</span><br><span class="line">Internet(config-if)#no shut</span><br><span class="line">Internet(config-if)#inter f0/1</span><br><span class="line">Internet(config-if)#ip add 100.1.1.1 255.255.255.0</span><br><span class="line">Internet(config-if)#no shut</span><br><span class="line"></span><br><span class="line">Server:</span><br><span class="line">Server(config)#inter f0/0</span><br><span class="line">Server(config-if)#ip add 100.1.1.100 255.255.255.0</span><br><span class="line">Server(config-if)#no shut</span><br><span class="line">Server(config)#ip route 0.0.0.0 0.0.0.0 100.1.1.1</span><br><span class="line">Server(config)#username test priv 15 password test</span><br><span class="line">Server(config)#line vty 0 15</span><br><span class="line">Server(config-line)#login local</span><br></pre></td></tr></table></figure>
 <h5 id="区域无关NAT配置"><a href="#区域无关NAT配置" class="headerlink" title="区域无关NAT配置"></a>区域无关NAT配置</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GW-WAN(config)#ip access-list ex test</span><br><span class="line">GW-WAN(config-ext-nacl)#permit ip 192.168.2.0 0.0.0.255 any  #匹配内网地址到所有地方的流量</span><br><span class="line">GW-WAN(config)#ip nat source list test interface f0/1 overload   #配置动态PAT保障内网用户正常上网</span><br><span class="line">GW-WAN(config)#ip nat source static 192.168.2.3 200.1.1.4   #把Client-2映射成公网地址，提供服务</span><br><span class="line">GW-WAN(config)#inter f0/0</span><br><span class="line">GW-WAN(config-if)#ip nat enable #开启区域无关NAT功能</span><br><span class="line">GW-WAN(config-if)#inter  f0/1</span><br><span class="line">GW-WAN(config-if)#ip nat enable  #开启区域网关NAT功能</span><br></pre></td></tr></table></figure>
 <h5 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h5><p>Client-1使用公网地址telnet管理Client-2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Client-1#telnet 200.1.1.4</span><br><span class="line">Trying 200.1.1.4 ... Open</span><br><span class="line">User Access Verification</span><br><span class="line">Username: test</span><br><span class="line">Password: </span><br><span class="line">Client-2#</span><br><span class="line">Client-2#exit</span><br><span class="line">[Connection to 200.1.1.4 closed by foreign host]</span><br></pre></td></tr></table></figure></p>
@@ -499,8 +511,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/06/10/Cisco路由交换-NAT详解二/" rel="next" title="Cisco路由交换-NAT详解二">
-                <i class="fa fa-chevron-left"></i> Cisco路由交换-NAT详解二
+              <a href="/2018/06/10/QoS第一讲（发展、等级模型、工具）/" rel="next" title="QoS第一讲（发展、等级模型、工具）">
+                <i class="fa fa-chevron-left"></i> QoS第一讲（发展、等级模型、工具）
               </a>
             
           </div>
@@ -599,7 +611,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -620,7 +632,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
